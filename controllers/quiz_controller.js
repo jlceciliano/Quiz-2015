@@ -45,9 +45,24 @@ exports.answer = function (req, res){
 
 // GET /quizes
 exports.index = function(req, res) {
-		models.Quiz.findAll().then(function(quizes) {
+		if (req.query.search === undefined )
+		{models.Quiz.findAll().then(function(quizes) {
     		res.render('quizes/index.ejs', { quizes: quizes});
    		}).catch(function(error) {next(error);});
+		} else 	{
+			var patron = req.query.search.trim().replace(/\s/g,"%");
+				// quito todos los espacios en blanco delante y detras
+				// todos los espacios en blanco de dentro, los sustituye por 
+				// el % 
+			var filtro = 'pregunta like \"%' + patron + '%\"';
+			models.Quiz.findAll({ where: [filtro] ,
+							      order: [['pregunta', 'ASC'] ]
+							     }).then(function(quizes){
+			res.render('quizes/index.ejs', {quizes:quizes});
+	});
+
+		}
+
  	};
 
 // GET author
