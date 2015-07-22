@@ -65,6 +65,30 @@ exports.index = function(req, res) {
 
  	};
 
+// Get para meter una pregunta una pregunta
+exports.new = function(req, res){
+		console.log("   -----   Estamos en NEW");
+		var quiz = models.Quiz.build ( // creamos un objeto Quiz
+			{ pregunta: "Pregunta",
+			  respuesta: "Respuesta"
+			});
+		res.render('quizes/new', {quiz: quiz})
+
+	};
+
+	// Get crear una pregunta
+exports.create = function(req, res){
+	console.log("   -----   Estamos en CREATE");
+		var quiz = models.Quiz.build (req.body.quiz);
+		// guardamos ahora los campos en la BD
+		quiz.save({
+			fields: ["pregunta","respuesta"]
+			}).then  (function(){
+					res.redirect('/quizes');
+			})	// Redireccion HTTP (URL relativo) lista de preguntas
+
+	};
+
 // GET author
 exports.author = function (req, res){
 		res.render('author/author', {})
