@@ -1,8 +1,16 @@
-// Definicion del modelo de Quiz
+	// Definicion del modelo de Quiz cpm validacion
 
 module.exports = function (sequelize, Datatypes) {
-	return sequelize.define('Quiz',
-		{pregunta: Datatypes.STRING,
-		 respuesta: Datatypes.STRING,
-		});
+	return sequelize.define(
+		'Quiz',
+		{pregunta: {
+			type: Datatypes.STRING, 
+			validate: { notEmpty: {msg: " --> Falta Pregunta"}}
+			},
+		 respuesta: {
+		 	type: Datatypes.STRING,
+		 	validate: { notEmpty: {msg: " --> Falta Respuesta"}}
+		 	}
+		}
+		)
 };
