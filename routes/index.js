@@ -13,7 +13,8 @@ router.get('/', function(req, res) {
 //Autoload  de comandos con :quizId
 // -- Si en la rula existe el parametro :quizId en parte de la cabecera, se 
 // invoca el load
-router.param ('quizId', quizController.load); //autoload quizID
+router.param ('quizId'		, quizController.load); 	//autoload quizID
+router.param ('commentId'	, commentController.load);  // autoload :commentId
 
 // Definición de rutas de sesion
 router.get    ('/login',  sessionController.new);     // formulario login
@@ -38,6 +39,10 @@ router.delete('/quizes/:quizId(\\d+)'      , quizController.destroy);
 // Definición de rutas de comentarios
 router.get('/quizes/:quizId(\\d+)/comments/new' , commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments' 	, commentController.create);
+// Al modificar un campo en la BBDD deberia seria un PUT y no un GET
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish'
+												, sessionController.loginRequired, commentController.publish);
+
 
 
 router.get('/author/author'               , quizController.author);
