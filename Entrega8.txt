@@ -1,0 +1,4 @@
+Hola, la entrega 8 esta realizada pero en heroku sigo avanzando por el paso 9, y llega un punto que para ver los botones de editar, borrar y creares necesario hacer login
+
+Usuario: admin
+Contraseña: 1234
