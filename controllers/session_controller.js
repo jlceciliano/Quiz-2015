@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 // Get /login   -- Formulario de login
 exports.new = function(req, res) {
     var errors = req.session.errors || {};
@@ -25,6 +27,9 @@ exports.create = function(req, res) {
         // Crear req.session.user y guardar campos   id  y  username
         // La sesión se define por la existencia de:    req.session.user
         req.session.user = {id:user.id, username:user.username};
+        // Inicializamos el tiempo
+        req.session.hora = moment().unix();
+        console.log (" ----- date -->" + req.session.hora);
         console.log (" ----- Fin del create de sesion -->" + req.session.redir);
         res.redirect(req.session.redir.toString());// redirección a path anterior a login
     });

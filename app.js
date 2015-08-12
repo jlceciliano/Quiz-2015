@@ -9,6 +9,9 @@ var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
 
+var moment = require('moment');
+
+
 var routes = require('./routes/index');
 // var users = require('./routes/users'); // Quitamos la routa a users
 
@@ -36,12 +39,45 @@ app.use(function(req, res, next) {
     if (!req.path.match(/\/login|\/logout/)) {
         console.log ("------------ app.js ----" + req.path)
         req.session.redir = req.path;
+        
     }
+    // Hacer visible req.session en las vistas
 
-// Hacer visible req.session en las vistas
     res.locals.session = req.session;
+    //res.locals.date = Date.now();
     next();
     });
+
+// Pasados 2 minutos de ver la ultima pagina caduca la sesion
+
+    //if (req.session.user){
+    //    var diff = Date.now() - req.session.hora;
+    //    console.log ("------------ DIFF de HORA ---- " + diff);
+    //    res.locals.session.hora = Date.now();
+    //    console.log ("------------ puesto a 0 ---- " );
+//
+    //}
+
+app.use(function(req, res, next) {
+    if (req.session.user){
+        if ((req.session.hora + 120)<moment().unix() ){
+            console.log ("------------ Destruyo sesion ---- " );
+            delete req.session.user;
+            res.render('sessions/new', {errors: [{"message": "sesión caducada, login otra vez"}]});
+
+        } else {
+            console.log ("------------ actualizo la hora  ---- " );
+            req.session.hora = moment().unix();
+
+        }
+
+        
+        
+    }
+    next();
+});
+
+
 
 
 app.use('/', routes);
