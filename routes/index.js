@@ -4,6 +4,7 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller.js');
 var commentController = require('../controllers/comment_controller.js');
 var sessionController = require('../controllers/session_controller.js');
+var statisticsController = require('../controllers/statistics_controller.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -44,6 +45,6 @@ router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish'
 												, sessionController.loginRequired, commentController.publish);
 
 
-
+router.get('/quizes/statistics'           , statisticsController.index);
 router.get('/author/author'               , quizController.author);
 module.exports = router;
